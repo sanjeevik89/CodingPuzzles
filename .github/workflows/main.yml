@@ -19,9 +19,18 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ['ubuntu-latest']
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    container:
+      image: node:18
+      env:
+        NODE_ENV: development
+      ports:
+        - 80
+      volumes:
+        - my_docker_volume:/volume_mount
+      options: --cpus 1
     steps:
+      - name: Check for dockerenv file
+        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
